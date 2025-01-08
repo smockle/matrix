@@ -1,5 +1,2 @@
 coverage
-.esm-cache
-.nyc_output
-.vscode
-*.log
+
