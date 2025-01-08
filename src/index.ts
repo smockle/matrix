@@ -13,7 +13,6 @@ type Matrix = {
   invert: () => Matrix;
   map: (x: any) => Matrix;
   valueOf: () => number | (number | number[])[];
-  inspect: () => string;
 };
 
 /**
@@ -262,7 +261,9 @@ Matrix.prototype.valueOf = function (
  * @alias module:matrix#inspect
  * @return {string} Formatted matrix value
  */
-Matrix.prototype.inspect = function (this: Matrix): string {
+Matrix.prototype[Symbol.for("nodejs.util.inspect.custom")] = function (
+  this: Matrix
+): string {
   switch (this.countRows()) {
     case 0:
       return `${this.__value}`;
