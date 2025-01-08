@@ -12,7 +12,7 @@ Run `npm install --save @smockle/matrix` to add `matrix` to your project.
 ## Usage
 
 ```JavaScript
-const Matrix = require('@smockle/matrix')
+import Matrix from '@smockle/matrix'
 
 // 1x1 Matrix
 const m11 = Matrix(3)
