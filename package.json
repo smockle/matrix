@@ -1,6 +1,6 @@
 {
   "name": "@smockle/matrix",
-  "version": "4.0.0",
+  "version": "0.0.0-development",
   "description": "Single and multi dimensional matrices and matrix functions.",
   "type": "module",
   "main": "dist/index.js",
