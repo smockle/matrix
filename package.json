@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "NODE_OPTIONS='--no-warnings=ExperimentalWarning --experimental-vm-modules' npx jest"
   },
   "repository": {
     "type": "git",
@@ -19,11 +19,11 @@
   },
   "homepage": "https://github.com/smockle/matrix#readme",
   "dependencies": {
-    "lodash": "^4.17.4",
+    "lodash-es": "^4.17.21",
     "mathjs": "^14.0.1"
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.14",
+    "@types/lodash-es": "^4.17.12",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.1",
     "typescript": "^5.2.2"
