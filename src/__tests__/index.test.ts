@@ -261,7 +261,7 @@ describe("Matrix#multipliable", () => {
   });
 });
 
-describe.skip("Matrix.multiply", () => {
+describe("Matrix.multiply", () => {
   const multiplymatrix = Matrix([1, 2, 3]);
 
   test("multiply throws typerror", () => {
@@ -326,7 +326,7 @@ describe.skip("Matrix.multiply", () => {
   });
 });
 
-describe.skip("Matrix#multiply", () => {
+describe("Matrix#multiply", () => {
   test("multiply throws typerror", () => {
     expect(
       Matrix.multiply.bind(

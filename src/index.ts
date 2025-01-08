@@ -25,25 +25,22 @@ type Matrix = {
  */
 function Matrix(x: number | (number | number[])[]): Matrix {
   // extra nesting
-  if (x instanceof Array && x[0] instanceof Array && x.length === 1) {
+  if (Array.isArray(x) && Array.isArray(x[0]) && x.length === 1) {
     throw new TypeError("Matrix must be a number or array of numbers");
   }
 
   // uneven rows
   if (
-    x instanceof Array &&
-    x[0] instanceof Array &&
+    Array.isArray(x) &&
+    Array.isArray(x[0]) &&
     x.some(
-      (row) => row instanceof Array && row.length !== (x[0] as number[]).length
+      (row) => Array.isArray(row) && row.length !== (x[0] as number[]).length
     )
   ) {
     throw new TypeError("Matrix must be a number or array of numbers");
   }
 
-  /**
-   * Single or multi dimensional matrix
-   * @constant {Matrix}
-   */
+  /* Single or multi dimensional matrix */
   const matrix = Object.create(Matrix.prototype);
   matrix.__value = x;
   return matrix;
@@ -100,7 +97,11 @@ Matrix.multipliable = function (x: Matrix, y: Matrix): boolean {
  */
 function innerproduct(x: Matrix, y: Matrix, i: number): number {
   const _x: number[] = x.__value as number[];
-  const _y: number[] = unzip([y.__value as number[]])[i];
+  const _y: number[] =
+    Array.isArray(unzip<number>(y.__value as number[][])) &&
+    unzip<number>(y.__value as number[][]).length === 0
+      ? unzip([y.__value as number[]])[i]
+      : unzip(y.__value as number[][])[i];
   return ([] as number[])
     .concat(_x)
     .reduce((z: number, _z: number, j: number): number => z + _z * _y[j], 0);
@@ -118,12 +119,11 @@ Matrix.multiply = function (x: Matrix, y: Matrix): Matrix {
     throw new TypeError("Matrices are not multipliable");
   }
 
-  if (x.countColumns() === 0 && y.countRows() === 0)
+  if (x.countColumns() === 0 && y.countRows() === 0) {
     return Matrix((x.__value as number) * (y.__value as number));
-  /**
-   * New matrix with the dot product
-   * @const {Matrix}
-   */
+  }
+
+  /* New matrix with the dot product */
   const z: Matrix = Matrix(
     fill(
       Array(x.countRows()),
@@ -270,10 +270,7 @@ Matrix.prototype[Symbol.for("nodejs.util.inspect.custom")] = function (
     case 1:
       return `[ ${(this.__value as number[]).join(" ")} ]`;
     default:
-      /**
-       * Output array filled with zeroes
-       * @constant {string}
-       */
+      /* Output array filled with zeroes */
       const padding: number[] = unzip(this.__value as number[][]).map(
         (column: number[]) =>
           column.reduce((length, x) => Math.max(`${x}`.length, length), 0)
