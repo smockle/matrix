@@ -1,2 +1,5 @@
+.github
 coverage
+src
+tsconfig.json
 tsconfig.tsbuildinfo
