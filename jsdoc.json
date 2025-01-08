@@ -1,6 +1,0 @@
-{
-  "source": {
-    "includePattern": ".+\\.(m)?js(doc|x)?$",
-    "excludePattern": "(^|\\/|\\\\)_"
-  }
-}

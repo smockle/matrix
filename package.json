@@ -1,57 +1,46 @@
 {
   "name": "@smockle/matrix",
-  "version": "3.0.6",
+  "version": "0.0.0-development",
   "description": "Single and multi dimensional matrices and matrix functions.",
-  "main": "lib/matrix.js",
-  "module": "lib/matrix.mjs",
+  "type": "module",
+  "main": "dist/index.js",
   "scripts": {
-    "debug": "node --nolazy --inspect-brk=5858 -r @std/esm test/matrix.mjs",
-    "docs": "jsdoc2md lib/matrix.mjs --configure jsdoc.json --template jsdoc2md/README.hbs --example-lang JavaScript > README.md",
-    "test": "node -r @std/esm test/matrix.mjs | colortape",
-    "coverage": "nyc --require @std/esm --extension .mjs --reporter=lcov node test/matrix.mjs | colortape",
-    "postcoverage": "nyc report",
-    "prepublishOnly": "npm test",
-    "precommit": "lint-staged"
+    "build": "tsc",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/smockle/matrix.git"
   },
   "author": "Clay Miller <clay@smockle.com> (https://smockle.com)",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/smockle/matrix/issues"
   },
   "homepage": "https://github.com/smockle/matrix#readme",
-  "devDependencies": {
-    "codecov": "^3.0.0",
-    "colortape": "^0.1.2",
-    "eslint": "^4.1.0",
-    "eslint-config-standard": "^10.0.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-node": "^5.0.0",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.0",
-    "flow-bin": "^0.61.0",
-    "husky": "^0.14.0",
-    "jsdoc-to-markdown": "git://github.com/smockle/jsdoc-to-markdown.git#update-dmd",
-    "lint-staged": "^6.0.0",
-    "nyc": "^11.0.2",
-    "prettier-eslint-cli": "^4.3.0"
-  },
-  "lint-staged": {
-    "*.{js,mjs}": [
-      "./node_modules/.bin/prettier-eslint --write",
-      "git add"
-    ]
-  },
-  "@std/esm": {
-    "cjs": true
-  },
   "dependencies": {
-    "@std/esm": "^0.18.0",
-    "flow-typed": "^2.1.5",
     "lodash": "^4.17.4",
-    "mathjs": "^3.17.0"
+    "mathjs": "^14.0.1"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.14",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.2.2"
+  },
+  "jest": {
+    "preset": "ts-jest/presets/default-esm",
+    "collectCoverage": true,
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "testRegex": "\\.test\\.ts$",
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1",
+      "^@/(.*)\\.js$": "<rootDir>/src/$1"
+    }
   }
 }
