@@ -1,4 +1,4 @@
-import { fill, flattenDeep, invert, padStart, unzip } from "lodash";
+import { fill, padStart, unzip } from "lodash";
 import { inv } from "mathjs";
 
 type Matrix = {
