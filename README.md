@@ -15,7 +15,7 @@ Run `npm install --save @smockle/matrix` to add `matrix` to your project.
 import Matrix from '@smockle/matrix'
 
 // 1x1 Matrix
-const m11 = Matrix(3)
+const m11 = Matrix([3])
 
 // 1x3 Matrix
 const m13 = Matrix([1, 2, 3])
