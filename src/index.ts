@@ -5,27 +5,29 @@ interface IMatrix {
   countRows: () => number;
   countColumns: () => number;
   addable: (y: Matrix) => boolean;
-  add: (y: Matrix) => Matrix;
   multipliable: (y: Matrix) => boolean;
   multiply: (y: Matrix) => Matrix;
-  transpose: () => Matrix;
-  invert: () => Matrix;
+  transpose: () => Matrix2D;
   map: (x: any) => Matrix;
 }
 
-interface Matrix1D extends IMatrix {
+export interface Matrix1D extends IMatrix {
   __value: number[];
+  add: (y: Matrix1D) => Matrix1D;
+  invert: () => Matrix1D;
   valueOf: () => number[];
 }
 
-interface Matrix2D extends IMatrix {
+export interface Matrix2D extends IMatrix {
   __value: number[][];
+  add: (y: Matrix2D) => Matrix2D;
+  invert: () => Matrix2D;
   valueOf: () => number[][];
 }
 
 type Matrix = Matrix1D | Matrix2D;
 
-function isMatrix1D(matrix: Matrix): matrix is Matrix1D {
+export function isMatrix1D(matrix: Matrix): matrix is Matrix1D {
   return matrix.countRows() === 1;
 }
 
@@ -37,7 +39,9 @@ function isMatrix1D(matrix: Matrix): matrix is Matrix1D {
  * @throws {TypeError} Argument x must be a number or number array
  * @return {Matrix} Single or multi dimensional matrix
  */
-function Matrix(x: number[] | number[][]): Matrix {
+function Matrix(x: number[]): Matrix1D;
+function Matrix(x: number[][]): Matrix2D;
+function Matrix<T extends number[] | number[][]>(x: T): Matrix1D | Matrix2D {
   // extra nesting
   if (Array.isArray(x[0]) && x.length === 1) {
     throw new TypeError("Matrix must be a number or array of numbers");
@@ -79,14 +83,17 @@ Matrix.addable = function (x: Matrix, y: Matrix): boolean {
  * @throws {TypeError} Matrices are not addable
  * @return {Matrix} New matrix with the summation
  */
-Matrix.add = function (x: Matrix, y: Matrix): Matrix {
+function Add(x: Matrix1D, y: Matrix1D): Matrix1D;
+function Add(x: Matrix2D, y: Matrix2D): Matrix2D;
+function Add<T extends Matrix1D & Matrix2D>(x: T, y: T): Matrix1D | Matrix2D {
   if (!Matrix.addable(x, y)) throw new TypeError("Matrices are not addable");
   return x.map((row: number[], i: number): number[] =>
     row.map((column: number, j: number): number => {
       return column + (Array.isArray(y.__value[i]) ? y.__value[i][j] : 0);
     })
   );
-};
+}
+Matrix.add = Add;
 
 /**
  * Determines whether two matrices can be multiplied
@@ -150,14 +157,17 @@ Matrix.multiply = function (x: Matrix, y: Matrix): Matrix {
 };
 
 /**
- * Inverts a matrix
+ * Inverts a matrix. Matrix must be a square (e.g. 1x1 or 2x2)
  * @alias module:matrix.invert
  * @param  {x} Matrix to invert
  * @return {Matrix} Matrix inverse
  */
-Matrix.invert = function (x: Matrix): Matrix {
-  return Matrix(inv<any>(x instanceof Matrix ? x.__value : x));
-};
+function Invert(x: Matrix1D): Matrix1D;
+function Invert(x: Matrix2D): Matrix2D;
+function Invert<T extends Matrix1D & Matrix2D>(x: T): Matrix1D | Matrix2D {
+  return Matrix(inv<any>(x.__value));
+}
+Matrix.invert = Invert;
 
 /**
  * Counts rows in this matrix
@@ -195,9 +205,15 @@ Matrix.prototype.addable = function (this: Matrix, y: Matrix): boolean {
  * @param {Matrix} y - Matrix to add
  * @return {Matrix} New matrix with the summation
  */
-Matrix.prototype.add = function (this: Matrix, y: Matrix): Matrix {
+function add(this: Matrix1D, y: Matrix1D): Matrix1D;
+function add(this: Matrix2D, y: Matrix2D): Matrix2D;
+function add<T extends Matrix1D & Matrix2D>(
+  this: T,
+  y: T
+): Matrix1D | Matrix2D {
   return Matrix.add(this, y);
-};
+}
+Matrix.prototype.add = add;
 
 /**
  * Determines whether this matrix can be multiplied
@@ -224,7 +240,7 @@ Matrix.prototype.multiply = function (this: Matrix, y: Matrix): Matrix {
  * @alias module:matrix#transpose
  * @return {Matrix} New matrix with the transpose
  */
-Matrix.prototype.transpose = function (this: Matrix): Matrix {
+Matrix.prototype.transpose = function (this: Matrix): Matrix2D {
   if (isMatrix1D(this)) {
     return Matrix(unzip([this.__value]));
   } else {
@@ -237,9 +253,12 @@ Matrix.prototype.transpose = function (this: Matrix): Matrix {
  * @alias module:matrix#invert
  * @return {Matrix} Matrix inverse
  */
-Matrix.prototype.invert = function (this: Matrix): Matrix {
+function invert(this: Matrix1D): Matrix1D;
+function invert(this: Matrix2D): Matrix2D;
+function invert<T extends Matrix1D & Matrix2D>(this: T): Matrix1D | Matrix2D {
   return Matrix.invert(this);
-};
+}
+Matrix.prototype.invert = invert;
 
 /**
  * Maps over this matrix

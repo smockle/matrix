@@ -1,6 +1,6 @@
 import { inspect } from "node:util";
 import { describe, test, expect } from "@jest/globals";
-import Matrix from "../index.js";
+import Matrix, { Matrix1D, Matrix2D } from "../index.js";
 
 describe("Matrix", () => {
   const error = new TypeError("Matrix must be a number or array of numbers");
@@ -18,11 +18,18 @@ describe("Matrix", () => {
   });
 
   test("does not throw number array", () => {
-    expect(Matrix.bind(Matrix, [1])).not.toThrowError(error);
+    expect(
+      Matrix.bind<typeof Matrix, [x: number[]], [], Matrix1D>(Matrix, [1])
+    ).not.toThrowError(error);
   });
 
   test("does not throw 2D number array", () => {
-    expect(Matrix.bind(Matrix, [[1], [2]])).not.toThrowError(error);
+    expect(
+      Matrix.bind<typeof Matrix, [x: number[][]], [], Matrix2D>(Matrix, [
+        [1],
+        [2],
+      ])
+    ).not.toThrowError(error);
   });
 });
 
