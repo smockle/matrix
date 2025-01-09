@@ -17,10 +17,6 @@ describe("Matrix", () => {
     expect(Matrix.bind(Matrix, [[1, 2], [3], [4, 5]])).toThrowError(error);
   });
 
-  test("does not throw number", () => {
-    expect(Matrix.bind(Matrix, 1)).not.toThrowError(error);
-  });
-
   test("does not throw number array", () => {
     expect(Matrix.bind(Matrix, [1])).not.toThrowError(error);
   });
@@ -276,8 +272,8 @@ describe("Matrix.multiply", () => {
     ).toThrowError(new TypeError("Matrices are not multipliable"));
   });
 
-  test("multiply number", () => {
-    expect(Matrix(3).multiply(Matrix(6))).toStrictEqual(Matrix(18));
+  test("multiply A (1x1) and B (1x1)", () => {
+    expect(Matrix([3]).multiply(Matrix([6]))).toStrictEqual(Matrix([18]));
   });
 
   test("multiply A (1x2) and B (2x1)", () => {
@@ -340,8 +336,10 @@ describe("Matrix#multiply", () => {
     ).toThrowError(new TypeError("Matrices are not multipliable"));
   });
 
-  test("multiply number", () => {
-    expect(Matrix.multiply(Matrix(3), Matrix(6))).toStrictEqual(Matrix(18));
+  test("multiply A (1x1) and B (1x1)", () => {
+    expect(Matrix.multiply(Matrix([3]), Matrix([6]))).toStrictEqual(
+      Matrix([18])
+    );
   });
 
   test("multiply A (1x2) and B (2x1)", () => {
@@ -401,10 +399,6 @@ describe("Matrix#valueOf", () => {
 });
 
 describe("Matrix#countRows", () => {
-  test("countRows number", () => {
-    expect(Matrix(1).countRows()).toBe(0);
-  });
-
   test("countRows number array", () => {
     expect(Matrix([1]).countRows()).toBe(1);
   });
@@ -421,10 +415,6 @@ describe("Matrix#countRows", () => {
 });
 
 describe("Matrix#countColumns", () => {
-  test("countColumns number", () => {
-    expect(Matrix(1).countColumns()).toBe(0);
-  });
-
   test("countColumns number array", () => {
     expect(Matrix([1]).countColumns()).toBe(1);
   });
@@ -445,10 +435,6 @@ describe("Matrix#countColumns", () => {
 });
 
 describe("Matrix#transpose", () => {
-  test("transpose number", () => {
-    expect(Matrix(1).transpose()).toStrictEqual(Matrix(1));
-  });
-
   test("transpose number array", () => {
     expect(Matrix([1, 2]).transpose()).toStrictEqual(Matrix([[1], [2]]));
   });
@@ -506,10 +492,6 @@ describe("Matrix#map", () => {
 });
 
 describe("Matrix#inspect", () => {
-  test("inspect number", () => {
-    expect(inspect(Matrix(3))).toBe("3");
-  });
-
   test("inspect number array", () => {
     expect(inspect(Matrix([1, 2, 3]))).toBe("[ 1 2 3 ]");
   });
