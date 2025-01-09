@@ -85,7 +85,7 @@ Matrix.addable = function (x: Matrix, y: Matrix): boolean {
  */
 function Add(x: Matrix1D, y: Matrix1D): Matrix1D;
 function Add(x: Matrix2D, y: Matrix2D): Matrix2D;
-function Add<T extends Matrix1D & Matrix2D>(x: T, y: T): Matrix1D | Matrix2D {
+function Add<T extends Matrix1D | Matrix2D>(x: T, y: T): Matrix1D | Matrix2D {
   if (!Matrix.addable(x, y)) throw new TypeError("Matrices are not addable");
   return x.map((row: number[], i: number): number[] =>
     row.map((column: number, j: number): number => {
@@ -134,7 +134,12 @@ function innerproduct(x: Matrix1D, y: Matrix, i: number): number {
  * @param  {Matrix} y - Matrix to multiply
  * @return {Matrix} New matrix with the dot product
  */
-Matrix.multiply = function (x: Matrix, y: Matrix): Matrix {
+function Multiply(x: Matrix1D, y: Matrix): Matrix1D;
+function Multiply(x: Matrix2D, y: Matrix): Matrix2D;
+function Multiply<T extends Matrix1D | Matrix2D>(
+  x: T,
+  y: Matrix
+): Matrix1D | Matrix2D {
   if (!Matrix.multipliable(x, y)) {
     throw new TypeError("Matrices are not multipliable");
   }
@@ -154,7 +159,8 @@ Matrix.multiply = function (x: Matrix, y: Matrix): Matrix {
       }
     });
   }
-};
+}
+Matrix.multiply = Multiply;
 
 /**
  * Inverts a matrix. Matrix must be a square (e.g. 1x1 or 2x2)
@@ -164,7 +170,7 @@ Matrix.multiply = function (x: Matrix, y: Matrix): Matrix {
  */
 function Invert(x: Matrix1D): Matrix1D;
 function Invert(x: Matrix2D): Matrix2D;
-function Invert<T extends Matrix1D & Matrix2D>(x: T): Matrix1D | Matrix2D {
+function Invert<T extends Matrix1D | Matrix2D>(x: T): Matrix1D | Matrix2D {
   return Matrix(inv<any>(x.__value));
 }
 Matrix.invert = Invert;
@@ -231,9 +237,15 @@ Matrix.prototype.multipliable = function (this: Matrix, y: Matrix): boolean {
  * @param  {Matrix} y - Matrix to multiply
  * @return {Matrix} New matrix with the dot product
  */
-Matrix.prototype.multiply = function (this: Matrix, y: Matrix): Matrix {
+function multiply(this: Matrix1D, y: Matrix): Matrix1D;
+function multiply(this: Matrix2D, y: Matrix): Matrix2D;
+function multiply<T extends Matrix1D & Matrix2D>(
+  this: T,
+  y: Matrix
+): Matrix1D | Matrix2D {
   return Matrix.multiply(this, y);
-};
+}
+Matrix.prototype.multiply = multiply;
 
 /**
  * Calculates the transpose of this matrix

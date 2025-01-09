@@ -332,7 +332,12 @@ describe("Matrix.multiply", () => {
 describe("Matrix#multiply", () => {
   test("multiply throws typerror", () => {
     expect(
-      Matrix.multiply.bind(
+      Matrix.multiply.bind<
+        typeof Matrix,
+        [x: Matrix1D, y: Matrix2D],
+        [],
+        Matrix1D
+      >(
         Matrix,
         Matrix([1, 2, 3]),
         Matrix([
