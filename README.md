@@ -1,5 +1,5 @@
 [![npm](https://img.shields.io/npm/v/@smockle/matrix.svg)](https://www.npmjs.com/package/@smockle/matrix)
-[![codecov](https://codecov.io/gh/smockle/matrix/branch/master/graph/badge.svg)](https://codecov.io/gh/smockle/matrix)
+[![codecov](https://codecov.io/gh/smockle/matrix/branch/main/graph/badge.svg)](https://codecov.io/gh/smockle/matrix)
 
 # matrix
 
