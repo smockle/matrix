@@ -10,17 +10,17 @@ describe("Matrix", () => {
   });
 
   test("throws unnecessary nesting", () => {
-    expect(Matrix.bind(Matrix, [[1, 2]])).toThrowError(error);
+    expect(Matrix.bind(Matrix, [[1, 2]])).toThrow(error);
   });
 
   test("throws uneven rows", () => {
-    expect(Matrix.bind(Matrix, [[1, 2], [3], [4, 5]])).toThrowError(error);
+    expect(Matrix.bind(Matrix, [[1, 2], [3], [4, 5]])).toThrow(error);
   });
 
   test("does not throw number array", () => {
     expect(
       Matrix.bind<typeof Matrix, [x: number[]], [], Matrix1D>(Matrix, [1])
-    ).not.toThrowError(error);
+    ).not.toThrow(error);
   });
 
   test("does not throw 2D number array", () => {
@@ -29,7 +29,7 @@ describe("Matrix", () => {
         [1],
         [2],
       ])
-    ).not.toThrowError(error);
+    ).not.toThrow(error);
   });
 });
 
@@ -140,7 +140,7 @@ describe("Matrix.add", () => {
           [4, 5, 6],
         ])
       )
-    ).toThrowError(new TypeError("Matrices are not addable"));
+    ).toThrow(new TypeError("Matrices are not addable"));
   });
 
   test("add", () => {
@@ -179,7 +179,7 @@ describe("Matrix#add", () => {
           [4, 5, 6],
         ])
       )
-    ).toThrowError(new TypeError("Matrices are not addable"));
+    ).toThrow(new TypeError("Matrices are not addable"));
   });
 
   test("add", () => {
@@ -276,7 +276,7 @@ describe("Matrix.multiply", () => {
           [3, 4],
         ])
       )
-    ).toThrowError(new TypeError("Matrices are not multipliable"));
+    ).toThrow(new TypeError("Matrices are not multipliable"));
   });
 
   test("multiply A (1x1) and B (1x1)", () => {
@@ -345,7 +345,7 @@ describe("Matrix#multiply", () => {
           [3, 4],
         ])
       )
-    ).toThrowError(new TypeError("Matrices are not multipliable"));
+    ).toThrow(new TypeError("Matrices are not multipliable"));
   });
 
   test("multiply A (1x1) and B (1x1)", () => {
