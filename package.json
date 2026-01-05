@@ -20,7 +20,7 @@
   "homepage": "https://github.com/smockle/matrix#readme",
   "dependencies": {
     "lodash-es": "^4.17.21",
-    "mathjs": "^14.0.1"
+    "mathjs": "^15.1.0"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",
